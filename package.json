@@ -1,0 +1,12 @@
+{
+  "name": "com.animetra.screentexter",
+  "version": "0.1.0",
+  "displayName": "Animetra ScreenTexter",
+  "description": "Module to read and display screentext",
+  "author": {
+    "name": "Animetra",
+    "email": "info@animetra.de",
+    "url": "https://www.animetra.de"
+  },
+  "type": "commonjs"
+}

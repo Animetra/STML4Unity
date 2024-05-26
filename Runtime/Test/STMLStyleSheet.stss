@@ -1,0 +1,83 @@
+<root>
+	<header>
+		<title>This is title... hi!</title>
+		<description>This is a description</description>
+		<author>Lukas</author>
+		<interpreter>Lukas</interpreter>
+		<version>1.0.15</version>
+	</header>
+
+	<resources>
+		<font>
+			<standard>/Assets/Art/Fonts/FiraCode-Regular_SDF.asset;</standard>
+		</font>
+		
+		<speed>
+			<veryslow></veryslow>
+			<slow></slow>
+			<normal></normal>
+			<fast></fast>
+			<veryfast></veryfast>
+			<!-- ... -->
+		</speed>
+
+		<size>
+			<verysmall></verysmall>
+			<small></small>
+			<normal></normal>
+			<big></big>
+			<verybig></verybig>
+		</size>
+		
+		<color>
+			<red>#FF0000</red>
+			<green>#00FF00</green>
+			<blue>#0000FF</blue>
+			<black>#000000</black>
+			<grey>#808080</grey>
+			<white>#FFFFFF</white>
+			<!-- ... -->
+		</color>
+		
+		<!-- ... -->
+	</resources>
+
+	<styles>
+		<!-- Standard style-->
+		<standard>
+			<font>standard</font>
+			<speed>normal</speed>
+			<size>normal</size>
+			<color>black</color>
+			<fontstyle></fontstyle>
+		</standard>
+
+		<!-- Applied on all statements, overrides standard-->
+		<statement>
+			<font>standard</font>
+			<speed>normal</speed>
+			<size>normal</size>
+			<color>black</color>
+			<fontstyle></fontstyle>
+		</statement>
+
+		<!-- Speaker styles: Applied on all statements of speaker XXX, overrides standard-->
+		<xxx>
+			<font>standard</font>
+			<speed>normal</speed>
+			<size>normal</size>
+			<color>black</color>
+			<fontstyle></fontstyle>
+		</xxx>
+		
+		<!-- Further styles: Applied on all statements with that style, overrides speaker-->
+		<yyy>
+			<font>standard</font>
+			<speed>normal</speed>
+			<size>normal</size>
+			<color>black</color>
+			<fontstyle></fontstyle>
+		</yyy>
+		
+	</styles>
+</root>
