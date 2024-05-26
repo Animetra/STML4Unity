@@ -4,13 +4,14 @@ using TMPro;
 
 public class Tester : MonoBehaviour
 {
+    [SerializeField] private string _filePath;
     STMLParser parser = new();
     STMLScript script;
     public TextMeshProUGUI text;
     
     public void Awake()
     {
-        script = parser.LoadFile();
+        script = parser.LoadFile(_filePath);
         script.StartStatement(0);
     }
 

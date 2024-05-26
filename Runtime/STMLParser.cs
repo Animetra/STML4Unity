@@ -10,9 +10,8 @@ using UnityEngine;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 public class STMLParser
 {
-    public STMLScript LoadFile(string filePath = "")
+    public STMLScript LoadFile(string filePath)
     {
-        filePath = "C:/Users/PC/Projekte/Libraries/UnityPackages/PackageDevelopment/Packages/ScreenTexter/Runtime/Test/TestText.stml";
         if (Path.GetExtension(filePath) is not ".stml")
         { 
             throw new ArgumentException("file has to be in screentext markup language format (.stml).");
