@@ -17,9 +17,9 @@ public class Tester : MonoBehaviour
 
     public void Update()
     {
-        script.UpdateProgress(Time.deltaTime);
-        
-        text.text = script.GetFormattedStatement();
+        string screentext = script.GetFormattedStatement(Time.deltaTime);
+        text.text = screentext;
+        //Debug.Log(screentext);
     }
 
 
