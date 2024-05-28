@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-using static Codice.CM.WorkspaceServer.WorkspaceTreeDataStore;
-
 public class STMLExpression : STMLElement
 {
     public string Narrator { get; private set; }
@@ -22,7 +17,7 @@ public class STMLExpression : STMLElement
     public string GetFormattedText(bool useNarratorStyle = false)
     {
         string content = _content.ToString();
-        
+
 
         int tagStart = content.IndexOf("<expression", 0);
         int tagEnd = content.IndexOf(">", tagStart);

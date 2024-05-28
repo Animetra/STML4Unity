@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<root id="headers">
+<root id="otherDoc">
 	<stml version="1.0"/>
 	
 	<header>
-		<title>ExampleHeaders</title>
-		<description>This is an example STML-document to demonstrate how ScreenTexter works.</description>
+		<title>Other Document</title>
+		<description>This is an example STML-document to demonstrate how referending from another stml document works.</description>
 		<language>en</language>
 		<author>A clever Animetra employee</author>
 		<version>1.0.0</version>
 	</header>
 	
 	<screentext>
-		<section id="exampleHeaders">
+		<section id="exampleTerms">
 			
 			<term id="first">
-				This is header 1
+				First term
 			</term>
 
 			<term id="second">
-				This is header 2
+				Second term
 			</term>
 			
 			<!-- add more here -->

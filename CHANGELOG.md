@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.0
+28-05-2024
+
+- Changed almost everything
 
 ## 0.1.0
 26-05-2024
