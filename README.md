@@ -1,57 +1,79 @@
 # Animetra ScreenTexter
-A Unity module to load and display screen text
+A C# module to load and return screen text.
+Can be used for translation and implementing on-screen text conversation.
 
 ## Concept
 
-Animetra ScreenTexter understands a screentext as a series of statements, done by certain speakers. The most adequate use case would be a Zelda-like dialogue.
-It's not meant to implement subtitles (but it can be used for that), but rather replacing a voice with text.
+Animetra ScreenTexter reads text saved in XML-inspired documents and returns it either as unformatted string or with RTF style tags to be used in Unity.
 
 The most important features are:
 
-- Importing texts in an XML-like format
+- Importing texts in an XML-like format (STML = ScreenText Markup Language)
 - Rich Text Format functionality, [have a look here](https://docs.unity3d.com/Packages/com.unity.ugui@3.0/manual/StyledText.html)
-- build up effect
 - Light-weight structuring tools
+- many use cases
 
-## Workflow
+## Quick Start
 
-1. Write your screentext into a .stml-file (= ScreenText Markup Language).
-1. Create a `new STMLParser()` and use `STMLParser.LoadFile(filePath)` to load your .stml-file and get back a `STMLScript`.
-1. Use `STMLScript.StartStatement(0)` to start with the first statement.
-1. Use `STMLScript.GetFormattedStatement(float deltaTime)` to get the current partial string of that statement.
-1. Display your string in any way you want.
+Do this to get the formatted text of an expression:
+
+1. Write your text into a .stml-file.
+1. Create a `new STMLReader()` and use `STMLReader.ReadFile()` to load your .stml-file and get back a `STMLDocument`.
+1. Use `STMLDocument.GetSection()` to get the section with your desired expression via its id.
+1. Use `STMLSection.GetExpression()` to get the expression you want via its id or its index.
+1. Use `STMLExpression.GetFormattedText` to get the expression's formatted text or `STMLExpression.GetPlainText` to get the unformatted text.
 
 ## STML
 
 STML is a XML format to easily write screentext, understandable for the ScreenTexter.
-Each STML-Document follows this structure (replace the contents of the `[ ]`):
+Each STML-Document follows this structure (replace the contents of the `{ }`):
 
+
+	<?xml version="1.0" encoding="utf-8"?>
 	<root>
+		<stml version="{ }"/>
+	
 		<header>
-			<title>[Your tite]</title>
-			<description>[What is this document about?]</description>
-			<language>[language code of this document's language]</language>
-			<language_original>[language code of the original document's language]</language_original>
-			<author>[Who has written this document?]</author>
-			<author_original>[Who has written the original document?]</author_original>
-			<version>[Version of this document]</version>
+			<title>Document</title>
+			<description>This is an example stml document to demonstrate, how ScreenTexter works.</description>
+			<language>en</language>
+			<author>A clever Animetra employee</author>
+			<version>1.0.0</version>
 		</header>
 
 		<screentext>
-			<section id="[Unique name for this conversation]">
-				<statement speaker="Speaker A">
-					[content]
-					[you can use RTF here]
-				<statement>
+			<section id="testSection">
+			
+				<term id="testTerm">
+					This is a term.
+				</term>
+			
+				<!-- add more here -->
+				
+				<expression>
+					<style class="H1">This is a Header.</style> And this an expression text. You can use RTF here, e.g. you can make this <b>bold</b>, <i>italic</i> or <b><i>both nested</i></b>. <color value="red">Colors</color> work too, as well as <size value="30">different</size> <size value="50">sizes.</size>
+				</expression>
+			
+				<expression id="testExpression" style ="Highlighted">
+					Use the optional style-attribute to style the whole expression with a style from your style sheet. With the id attribute you can identify this expression from the corresponding STMLExpression-object via the overload "STMLExpression GetExpression(string id)".
+				</expression>
+			
+				<expression narrator="A">
+					Use the attribute "narrator", if your text is spoken by a character to give this document a more script-like vibe and you know who says what. If you use `STMLExpression.GetFormattedText(true)`, you can define an own style in your style sheet named after your narrator (in this case "A") and each expression of this narrator will be formatted in that style.
+				</expression>
 		
-				<statement speaker="Speaker B" style="Shout">
-				...
-				</statement>
-
-				...
+				<expression narrator="B" style="Shout">
+					You can also use the optional style attribute to give narrator expressions a special style. It's nested inside the narrator style, so use this for special occasions like shouting, whispering and so on.
+				</expression>
+			
+				<!-- add more here -->
 			</section>
+	
+			<!-- add more here -->
 		</screentext>
 	</root>
+
+
 
 The language code has to follow [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) in lower case:
 English -> en
