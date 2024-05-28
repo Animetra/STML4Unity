@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using static Codice.CM.WorkspaceServer.WorkspaceTreeDataStore;
 
 public class STMLExpression : STMLElement
 {
     public string Narrator { get; private set; }
     public string Style { get; private set; }
 
-    public STMLExpression(XElement expression, List<STMLDocument> references = null) : base(expression, references)
+    public STMLExpression(XElement expression, STMLDocument parentDocument) : base(expression, parentDocument)
     {
         Narrator = expression.Attribute("narrator")?.Value;
         Style = expression.Attribute("style")?.Value;
@@ -37,7 +38,13 @@ public class STMLExpression : STMLElement
                     .Replace("<material value=", "<material=")
                     .Replace("<quad value=", "<quad");
 
-        foreach(var replacement in GetRefReplacements())
+
+        foreach (var replacement in GetVariableReplacements())
+        {
+            content = content.Replace(replacement.Key, replacement.Value);
+        }
+
+        foreach (var replacement in GetRefReplacements())
         {
             content = content.Replace(replacement.Key, replacement.Value);
         }
@@ -67,10 +74,5 @@ public class STMLExpression : STMLElement
     public string GetPlainText()
     {
         return _content.Value.Trim();
-    }
-
-    public override void SetReferences(List<STMLDocument> references)
-    {
-        _references = references;
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root id="headers">
+	<stml version="1.0"/>
+	
+	<header>
+		<title>ExampleHeaders</title>
+		<description>This is an example STML-document to demonstrate how ScreenTexter works.</description>
+		<language>en</language>
+		<author>A clever Animetra employee</author>
+		<version>1.0.0</version>
+	</header>
+	
+	<screentext>
+		<section id="exampleHeaders">
+			
+			<term id="first">
+				This is header 1
+			</term>
+
+			<term id="second">
+				This is header 2
+			</term>
+			
+			<!-- add more here -->
+		</section>
+	
+		<!-- add more here -->
+	</screentext>
+</root>
+

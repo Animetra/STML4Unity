@@ -9,6 +9,13 @@
 		<author>A clever Animetra employee</author>
 		<version>1.0.0</version>
 	</header>
+
+	<resources>
+		<var id="test">Variables</var>
+		<var id="test2">
+			<ref document="headers" section="exampleHeaders" term="first"/>
+		</var>
+	</resources>
 	
 	<screentext>
 		<section id="testSection">
@@ -20,11 +27,11 @@
 			<!-- add more here -->
 
 			<expression id="testExpression">
-				<style class="H1">This is a Header.</style> And this an expression text. You can use RTF here, e.g. you can make this <b>bold</b>, <i>italic</i> or <b><i>both nested</i></b>. <color value="red">Colors</color> work too, as well as <size value="30">different</size> <size value="50">sizes.</size> With the id attribute you can identify this expression from the corresponding STMLExpression-object via the overload "STMLExpression GetExpression(string id)".
+				<style class="H1"><ref document="headers" section="exampleHeaders" term="first"/></style> This is an expression text. You can use RTF here, e.g. you can make this <b>bold</b>, <i>italic</i> or <b><i>both nested</i></b>. <color value="red">Colors</color> work too, as well as <size value="30">different</size> <size value="50">sizes.</size>With the id attribute you can identify this expression from the corresponding STMLExpression-object via the overload "STMLExpression GetExpression(string id)". You can also use <resource var="test"/>. In them refs work too, like: <ref document="this" section="this" term="testTerm"/>
 			</expression>
 			
 			<expression style ="Highlighted">
-				Use the optional style-attribute to style the whole expression with a style from your style sheet. This is a reference: <ref document="otherDoc" section="otherSec" term="otherTerm"></ref>
+				Use the optional style-attribute to style the whole expression with a style from your style sheet.
 			</expression>
 			
 			<expression narrator="A">

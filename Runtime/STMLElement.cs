@@ -1,22 +1,31 @@
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using static Codice.CM.WorkspaceServer.WorkspaceTreeDataStore;
-using static System.Collections.Specialized.BitVector32;
+using UnityEngine;
+using UnityEngine.Animations;
 
 public abstract class STMLElement
 {
     protected readonly XElement _content;
-    protected List<STMLDocument> _references;
+    protected readonly STMLDocument _parent;
+    protected List<STMLDocument> _references = null;
+    public List<STMLDocument> References
+    {
+        get
+        {
+            _references = _parent?.References ?? _references;
+            return _references;
+        }
+    }
 
     public List<(STMLDependencyType Type, string ID)> Dependencies { get; protected set; }
     public string ID { get; }
 
-    public STMLElement(XElement content, List<STMLDocument> references)
+    public STMLElement(XElement content, STMLDocument parentDocument)
     {
         _content = content;
-        _references = references;
+        _parent = parentDocument;
 
         ID = content.Attribute("id")?.Value;
 
@@ -56,18 +65,47 @@ public abstract class STMLElement
     {
         Dictionary<string, string> replacements = new();
 
-        var refs = _content.Elements().Where(x => x.Name == "ref");
+        var refs = _content.Descendants("ref");
+
         foreach (var reference in refs)
         {
-            string document = reference.Attribute("document")?.Value;
-            string section = reference.Attribute("section")?.Value;
+            string documentID = reference.Attribute("document")?.Value;
+            if (documentID == "this")
+            {
+                documentID = _parent.ID;
+                Debug.Log(documentID);
+            }
+
+            string sectionID = reference.Attribute("section")?.Value;
+            if (sectionID == "this")
+            {
+                sectionID = _parent.GetSection(_content.AncestorsAndSelf("section").First().Attribute("id").Value).ID;
+                Debug.Log(sectionID);
+            }
+
             string term = reference.Attribute("term")?.Value;
 
-            replacements.Add(reference.ToString(), _references.First(x => x.ID == document).GetSection(section).GetTerm(term).Value);
+            // do NOT implement expressions here.. but..:
+            // TODO: performance, refactorize
+            replacements.Add(reference.ToString(), References.First(x => x.ID == documentID).GetSection(sectionID).GetTerm(term).Value);
         }
 
         return replacements;
     }
 
-    public abstract void SetReferences(List<STMLDocument> references);
+    protected Dictionary<string, string> GetVariableReplacements()
+    {
+        Dictionary<string, string> replacements = new();
+
+        var variablesToReplace = _content.Descendants("var");
+
+        foreach (var variable in variablesToReplace)
+        {
+            string variableID = variable.Attribute("resource")?.Value;
+
+            replacements.Add(variable.ToString(), _parent.Variables[variableID]);
+        }
+
+        return replacements;
+    }
 }

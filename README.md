@@ -13,12 +13,26 @@ The most important features are:
 - Light-weight structuring tools
 - many use cases
 
+## Structure
+
+| Term | represented by C# class | does |
+| --- | --- | --- |
+| Reader | `STMLReader` | Reads a .stml-file and returns a `STMLDocument` |
+| Library | `STMLLibrary` | A collection of `STMLDocuments` to make working with them easier |
+| Element | `STMLElement` | A base class for `STMLDocument`, `STMLSection`, `STMLTerm` and `STMLExpression`.|
+| Document | `STMLDocument` | A comfortable data structure based on a .stml-file. Gives easy access to the screentext. |
+| Header | `STMLHeader` | The header of a `STMLDocument` |
+| Section | `STMLSection` | A structural unit inside a `STMLDocument` to organize your texts. Can contain terms and expressions. |
+| Term | `STMLTerm` | A single word or term to be referenced in other texts. Can't be formatted. |
+| Expression | `STMLExpression` | A formattable phrase, statement or short text |
+| Variable | - | To be used as shorthands in expressions |
+
 ## Quick Start
 
 Do this to get the formatted text of an expression:
 
 1. Write your text into a .stml-file.
-1. Create a `new STMLReader()` and use `STMLReader.ReadFile()` to load your .stml-file and get back a `STMLDocument`.
+1. Create a `new STMLReader()` and use `STMLReader.ReadFile()` to load your .stml-file and get a `STMLDocument`.
 1. Use `STMLDocument.GetSection()` to get the section with your desired expression via its id.
 1. Use `STMLSection.GetExpression()` to get the expression you want via its id or its index.
 1. Use `STMLExpression.GetFormattedText` to get the expression's formatted text or `STMLExpression.GetPlainText` to get the unformatted text.
@@ -28,50 +42,7 @@ Do this to get the formatted text of an expression:
 STML is a XML format to easily write screentext, understandable for the ScreenTexter.
 Each STML-Document follows this structure (replace the contents of the `{ }`):
 
-
-	<?xml version="1.0" encoding="utf-8"?>
-	<root>
-		<stml version="{ }"/>
-	
-		<header>
-			<title>Document</title>
-			<description>This is an example stml document to demonstrate, how ScreenTexter works.</description>
-			<language>en</language>
-			<author>A clever Animetra employee</author>
-			<version>1.0.0</version>
-		</header>
-
-		<screentext>
-			<section id="testSection">
-			
-				<term id="testTerm">
-					This is a term.
-				</term>
-			
-				<!-- add more here -->
-				
-				<expression>
-					<style class="H1">This is a Header.</style> And this an expression text. You can use RTF here, e.g. you can make this <b>bold</b>, <i>italic</i> or <b><i>both nested</i></b>. <color value="red">Colors</color> work too, as well as <size value="30">different</size> <size value="50">sizes.</size>
-				</expression>
-			
-				<expression id="testExpression" style ="Highlighted">
-					Use the optional style-attribute to style the whole expression with a style from your style sheet. With the id attribute you can identify this expression from the corresponding STMLExpression-object via the overload "STMLExpression GetExpression(string id)".
-				</expression>
-			
-				<expression narrator="A">
-					Use the attribute "narrator", if your text is spoken by a character to give this document a more script-like vibe and you know who says what. If you use `STMLExpression.GetFormattedText(true)`, you can define an own style in your style sheet named after your narrator (in this case "A") and each expression of this narrator will be formatted in that style.
-				</expression>
-		
-				<expression narrator="B" style="Shout">
-					You can also use the optional style attribute to give narrator expressions a special style. It's nested inside the narrator style, so use this for special occasions like shouting, whispering and so on.
-				</expression>
-			
-				<!-- add more here -->
-			</section>
-	
-			<!-- add more here -->
-		</screentext>
-	</root>
+> :construction: Example missing 
 
 
 
@@ -80,7 +51,31 @@ English -> en
 German -> de
 ...and so on
 
+## Style options inside expressions
 
-## Restrictions
+| tag | does | attributes | mandatory / optional | defines |
+| --- | --- | --- | --- | --- |
+| \<b> | makes text <b>bold</b> | | | |
+| \<i> | makes text <i>italic</i> | | | | 
+| \<size> | changes <span style="font-size:30px;">text size</span> | value | mandatory | size in pt | 
+| \<color> | changes <span style="color:red">text color</span> | value | mandatory | the color in HEX or as keyword | 
+| \<material>  |:construction: | value | mandatory | :construction: |
+| \<quad> |:construction: | value | mandatory | :construction: |
+| \<style> | refers to a style defined in a style sheet | class | mandatory | the class name |
+| \<ref>| references and inserts a term (same or other document) | document | mandatory | the id* of the STML document holding the term |
+|		|					| section | mandatory | the id* of the section holding the term |
+|		|					| term | mandatory | the id of the term |
+| \<resource>| inserts a resource (same document) | var | mandatory | the id of the variable |
 
-- Nested RTF tags is not possible, you have to use styles from a style guide for now:
+*You can use "this" to reference the own document or section.
+
+## How to use variables
+
+Variables can be used to hold content and insert it in expressions by referencing the respective variable.
+This is especially useful for references to terms you use a lot. Just reference it once, save it into a variable and use that variable.
+
+1. If not already existing, create a `<resources> </resources>`-element into the root element.
+1. Into that insert a `<variable></variable>`-element and give it an unique id via the `id`-attribute.
+1. Write your desired content into the `variable`-element. You can do everything here you can also do in `expression`s, like RTF-formatting or `<ref>`s
+1. To insert the just saved content into an expression, use `<var resource={id}/>` (replace "id" with your chosen variable id).
+

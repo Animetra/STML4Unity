@@ -10,10 +10,11 @@ using System.Xml.Linq;
 public class STMLDocument : STMLElement
 {
     public STMLHeader Header { get; }
+    public Dictionary<string, string> Variables { get; } = new();
 
     private readonly Dictionary<string, STMLSection> _sections;
 
-    public STMLDocument(XElement content, List<STMLDocument> references = null) : base(content, references)
+    public STMLDocument(XElement content, List<STMLDocument> references = null) : base(content, null)
     {
         XElement header = _content.Element("header");
         Header = new STMLHeader
@@ -25,7 +26,25 @@ public class STMLDocument : STMLElement
                 version: header.Element("version").Value
             );
 
-        _sections = content.Element("screentext").Elements().ToDictionary(x => x.Attribute("id").Value, x => new STMLSection(x, references));
+        if (content.Element("resources") is XElement resources)
+        {
+            foreach(var variable in resources.Elements("variable"))
+            {
+                string variableString = variable.ToString();
+                int tagStart = variableString.IndexOf("<variable", 0);
+                int tagEnd = variableString.IndexOf(">", tagStart);
+                variableString = variableString
+                                    .Remove(tagStart, tagEnd - tagStart + 1)
+                                    .Replace("</variable>", "");
+
+                Variables.Add(variable.Attribute("id")?.Value, variableString);
+            }
+        }
+
+        _sections = content.Element("screentext").Elements().ToDictionary(x => x.Attribute("id")?.Value, x => new STMLSection(x, this));
+
+        SetReferences(references);
+
     }
 
     /// <summary>
@@ -35,12 +54,10 @@ public class STMLDocument : STMLElement
     /// <returns>The section as STMLSection</returns>
     public STMLSection GetSection(string id) => _sections[id];
 
-    public override void SetReferences(List<STMLDocument> references)
+    public void SetReferences(List<STMLDocument> references)
     {
-        _references = references;
-        foreach (var section in _sections.Values)
-        {
-            section.SetReferences(references);
-        }
+        _references = references is null ? new() : references;
+
+        _references.Add(this);
     }
 }

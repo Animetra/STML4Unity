@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Codice.CM.WorkspaceServer.WorkspaceTreeDataStore;
 
 /// <summary>
 /// A Section of a STMLDocument
@@ -23,9 +24,9 @@ public class STMLSection : STMLElement
         private set { _currentExpressionIndex = value; _currentExpressionIndex = Math.Clamp(_currentExpressionIndex, 0, _expressionsByIndex.Length); }
     }
 
-    public STMLSection(XElement section, List<STMLDocument> references = null) : base(section, references)
+    public STMLSection(XElement section, STMLDocument parentDocument) : base(section, parentDocument)
     {
-        _expressionsByIndex = section.Elements().Where(x => x.Name == "expression").Select(x => new STMLExpression(x, references)).ToArray();
+        _expressionsByIndex = section.Elements().Where(x => x.Name == "expression").Select(x => new STMLExpression(x, parentDocument)).ToArray();
 
         foreach(var expression in _expressionsByIndex)
         {
@@ -35,7 +36,7 @@ public class STMLSection : STMLElement
             }
         }
 
-        _terms = section.Elements().Where(x => x.Name == "term").ToDictionary(x => x.Attribute("id").Value, x => new STMLTerm(x, references));
+        _terms = section.Elements().Where(x => x.Name == "term").ToDictionary(x => x.Attribute("id").Value, x => new STMLTerm(x, parentDocument));
 
         CurrentExpressionIndex = 0;
     }
@@ -88,19 +89,5 @@ public class STMLSection : STMLElement
     public STMLTerm GetTerm(string id)
     {
         return _terms[id];
-    }
-
-    public override void SetReferences(List<STMLDocument> references)
-    {
-        _references = references;
-        foreach (var expression in _expressionsByIndex)
-        {
-            expression.SetReferences(references);
-        }
-
-        foreach (var term in _terms.Values)
-        {
-            term.SetReferences(references);
-        }
     }
 }

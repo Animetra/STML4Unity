@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class ScreenTexter_RuntimeExample : MonoBehaviour
 {
@@ -9,14 +10,15 @@ public class ScreenTexter_RuntimeExample : MonoBehaviour
 
     public void Awake()
     {
-        // Replace with own path
-        string filePath = "Packages/com.animetra.screentexter/Tests/Runtime/ExampleText.stml";
-
         // Instantiate a STMLReader
         STMLReader reader = new();
 
         // Read the file. You get back a STMLDocument, which lets you have comfortable access to your text.
-        STMLDocument script = reader.ReadFile(filePath);
+        STMLDocument terms = reader.ReadFile("Packages/com.animetra.screentexter/Tests/Runtime/Terms.stml");
+
+        List<STMLDocument> references = new(); 
+        references.Add(terms);
+        STMLDocument script = reader.ReadFile("Packages/com.animetra.screentexter/Tests/Runtime/ExampleText.stml", references);
 
         // Optional: Show all dependencies, so you know, which references you need to give
         script.Dependencies.ForEach(x => Debug.Log($"{x.Type}: {x.ID}"));
