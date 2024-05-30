@@ -11,23 +11,24 @@
 	</header>
 
 	<resources>
-		<var id="test">Variables</var>
-		<var id="test2">
+		<variable id="test">Variables</variable>
+		<variable id="test2">
 			<ref document="headers" section="exampleHeaders" term="first"/>
-		</var>
+		</variable>
 	</resources>
 	
 	<screentext>
-		<section id="testSection">
-			
+
+		<section id="terms">
 			<term id="testTerm">
 				This is a term.
 			</term>
-			
-			<!-- add more here -->
+		</section>
+		
+		<section id="testSection" isConversation="true">
 
 			<expression id="testExpression">
-				<style class="H1"><ref document="headers" section="exampleHeaders" term="first"/></style> This is an expression text. You can use RTF here, e.g. you can make this <b>bold</b>, <i>italic</i> or <b><i>both nested</i></b>. <color value="red">Colors</color> work too, as well as <size value="30">different</size> <size value="50">sizes.</size>With the id attribute you can identify this expression from the corresponding STMLExpression-object via the overload "STMLExpression GetExpression(string id)". You can also use <resource var="test"/>. In them refs work too, like: <ref document="this" section="this" term="testTerm"/>
+				<style class="H1"><ref document="headers" section="exampleHeaders" term="first"/></style> This is an expression text. You can use RTF here, e.g. you can make this <b>bold</b>, <i>italic</i> or <b><i>both nested</i></b>. <color value="red">Colors</color> work too, as well as <size value="30">different</size> <size value="50">sizes.</size>With the id attribute you can identify this expression from the corresponding STMLExpression-object via the overload "STMLExpression GetExpression(string id)". You can also use <var resource="test"/>. In them refs work too, like: <ref document="this" section="this" term="testTerm"/>
 			</expression>
 			
 			<expression style ="Highlighted">

@@ -41,7 +41,7 @@ public class STMLDocument : STMLElement
             }
         }
 
-        _sections = content.Element("screentext").Elements().ToDictionary(x => x.Attribute("id")?.Value, x => new STMLSection(x, this));
+        _sections = content.Element("screentext").Elements().ToDictionary(x => x.Attribute("id")?.Value, x => x.Attribute("isConversation")?.Value == "true" ? new STMLConversation(x, this) : new STMLSection(x, this));
 
         SetReferences(references);
 

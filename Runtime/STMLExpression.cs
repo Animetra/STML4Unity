@@ -1,3 +1,5 @@
+using System.Xml.Linq;
+
 public class STMLExpression : STMLElement
 {
     public string Narrator { get; private set; }
