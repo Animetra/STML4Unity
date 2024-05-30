@@ -49,7 +49,7 @@ STML is a XML format to easily write screentext, understandable for the ScreenTe
 Each STML-Document follows this structure (replace the contents of the `{ }`):
 
 	<?xml version="1.0" encoding="utf-8"?>
-
+	<stml version>
 	<root>
 
 		<stml/>

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.3.0
+30-05-2024
+
+- added conversation feature
+
 ## 0.2.0
 28-05-2024
 

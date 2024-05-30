@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
-
-public class STMLConversation : STMLSection
+public sealed class STMLConversation : STMLSection
 {
     private readonly STMLExpression[] _expressionsByIndex;
-
     private int _currentExpressionIndex;
 
     /// <summary>
@@ -26,7 +21,6 @@ public class STMLConversation : STMLSection
         _expressionsByIndex = conversation.Elements().Where(x => x.Name == "expression").Select(x => new STMLExpression(x, parentDocument)).ToArray();
         CurrentExpressionIndex = 0;
     }
-
 
     /// <summary>
     /// Returns the previous expression
