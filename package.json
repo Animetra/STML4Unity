@@ -1,7 +1,7 @@
 {
-  "name": "com.animetra.screentexter",
+  "name": "com.animetra.stml",
   "version": "0.4.0",
-  "displayName": "STML for Unity",
+  "displayName": "Animetra STML Tools",
   "description": "Module to read and display screentext in STML format",
   "author": {
     "name": "Animetra",
