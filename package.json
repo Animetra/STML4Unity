@@ -1,8 +1,8 @@
 {
   "name": "com.animetra.screentexter",
-  "version": "0.3.0",
-  "displayName": "Animetra ScreenTexter",
-  "description": "Module to read and display screentext",
+  "version": "0.4.0",
+  "displayName": "STML for Unity",
+  "description": "Module to read and display screentext in STML format",
   "author": {
     "name": "Animetra",
     "email": "info@animetra.de",
