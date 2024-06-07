@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using STML.Model;
 
 public class ScreenTexter_RuntimeExample : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class ScreenTexter_RuntimeExample : MonoBehaviour
 
     public void Awake()
     {
-        // Instantiate a STMLReader
+        /*// Instantiate a STMLReader
         STMLReader reader = new();
 
         // Read the file. You get back a STMLDocument, which lets you have comfortable access to your text.
@@ -39,7 +40,7 @@ public class ScreenTexter_RuntimeExample : MonoBehaviour
         }
 
         // Display it
-        GetComponent<TextMeshProUGUI>().text = screentext;
+        GetComponent<TextMeshProUGUI>().text = screentext;*/
     }
 }
 
